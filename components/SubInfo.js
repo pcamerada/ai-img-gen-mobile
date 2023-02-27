@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native'
 import React from 'react'
-import { COLORS, FONTS, SIZES } from '../constants'
+import { COLORS, SIZES } from '../constants'
 
 const SubInfo = ({ item }) => {
   return (

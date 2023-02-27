@@ -33,7 +33,7 @@ const Card = ({ data }) => {
                     borderTopRightRadius: SIZES.font,
                     borderTopLeftRadius: SIZES.font
                 }} />
-                <CircleButton imgUrl={assets.searchblack} right={10} top={10} handlePress={() => manageSearch(data.prompt)} />
+                <CircleButton imgUrl={assets.up_arrow} left={10} bottom={-10} width={30} height={30} handlePress={() => manageSearch(data.prompt)} />
             </View>
             <SubInfo item={ data }></SubInfo>
         </View>

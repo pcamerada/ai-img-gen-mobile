@@ -32,8 +32,8 @@ const App = () => {
     <ContextProvider>
       <NavigationContainer theme={theme}>
         <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName='Home'>
-          <Stack.Screen name='Home' component={Home}/>
-          <Stack.Screen name='NewImage' component={NewImage}/>
+          <Stack.Screen name='Home' component={ Home } />
+          <Stack.Screen name='NewImage' component={ NewImage } />
         </Stack.Navigator>
         <AlertMessage />
         <Loader />

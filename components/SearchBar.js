@@ -4,15 +4,34 @@ import { useStateContext } from '../context/ContextProvider';
 
 const SearchBar = () => {
 
-    const { inputSearch, setInputSearch } = useStateContext();
+    const { inputSearch, setInputSearch, setImageDataList, openAlert, startLoad, stopLoad } = useStateContext();
 
     const handleSearch = (e) => {
         const text = e.nativeEvent.text
         setInputSearch(text)
     }
 
-    const submitSearch = () => {
+    const submitSearch = async () => {
         console.log('FETCH:::', inputSearch)
+        startLoad()
+        try {
+            const response = await fetch('http://192.168.1.6:8080/api/v1/post', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ param : inputSearch })
+            })
+            if(response.ok) {
+                const result = await response.json();
+                console.log(result.data)
+                setImageDataList(result.data.reverse());
+            }
+        } catch (error) {
+            openAlert(error.message)
+        } finally {
+            stopLoad()
+        }
     }
 
     return (

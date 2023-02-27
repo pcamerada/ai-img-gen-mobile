@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { View, SafeAreaView, FlatList, Text } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import { COLORS, assets } from '../constants';
+import { COLORS, assets, SIZES, FONTS } from '../constants';
 import { Card, FocusedStatusBar, HomeHeader, CircleButton } from "../components";
 import { useStateContext } from '../context/ContextProvider';
 
 const Home = () => {
-    const { openAlert, startLoad, stopLoad } = useStateContext();
+    const { openAlert, startLoad, stopLoad, imageList, setImageDataList } = useStateContext();
     const navigation = useNavigation();
 
-    const [dataList, setDataList] = useState([]);
     const [pagination, setPagination] = useState(1);
 
     useEffect(() => {
@@ -17,7 +16,7 @@ const Home = () => {
     }, [])
 
     const handleInfiniteScrolling = () => {
-        if (dataList && dataList.length < pagination * 10 ) {
+        if (imageList && imageList.length < pagination * 10 ) {
             console.log('Un altro giro!')
         }
     }
@@ -33,7 +32,7 @@ const Home = () => {
             })
             if(response.ok) {
                 const result = await response.json();
-                setDataList(result.data.reverse());
+                setImageDataList(result.data.reverse());
             }
         } catch (error) {
             openAlert(error.message)
@@ -48,12 +47,26 @@ const Home = () => {
 
             <View style={{ flex: 1 }}>
                 <View style={{ zIndex: 0}}>
-                    <FlatList data={dataList} 
-                        renderItem={({ item }) => <Card data={item} />} 
-                        keyExtractor={(item) => item.id} 
-                        showsVerticalScrollIndicator={false} 
-                        ListHeaderComponent={<HomeHeader />} 
-                        onEndReached={handleInfiniteScrolling}/>
+                    { imageList ? (
+                        <FlatList data={imageList} 
+                            renderItem={({ item }) => <Card data={item} />} 
+                            keyExtractor={(item) => item.id} 
+                            showsVerticalScrollIndicator={false} 
+                            ListHeaderComponent={<HomeHeader />} 
+                            onEndReached={handleInfiniteScrolling}/>
+                    ) : (
+                        <>
+                            <HomeHeader />
+                            <View style={{
+                                justifyContent: 'center', alignItems:'center'
+                            }}>
+                                <Text style={{
+                                    color: COLORS.white, fontFamily: FONTS.bold,
+                                    marginTop: SIZES.font
+                                }}>No posts found</Text>
+                            </View>
+                        </>
+                    )}
                 </View>
                 <View style={{
                     position: 'absolute',
@@ -67,7 +80,7 @@ const Home = () => {
                     <View style={{ flex: 1, backgroundColor: COLORS.white }} />
                 </View>
             </View>
-            <CircleButton imgUrl={assets.add} bottom={10} left={20} width={50} height={50} handlePress={() => navigation.navigate('NewImage')} />
+            <CircleButton imgUrl={assets.add} bottom={10} right={20} width={50} height={50} handlePress={() => navigation.navigate('NewImage')} />
         </SafeAreaView>
     )
 }
