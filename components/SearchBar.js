@@ -1,4 +1,4 @@
-import { View, TextInput, Image, TouchableOpacity } from 'react-native';
+import { View, TextInput, Image, TouchableOpacity, Keyboard } from 'react-native';
 import { assets, COLORS, SIZES } from '../constants';
 import { useStateContext } from '../context/ContextProvider';
 
@@ -8,11 +8,11 @@ const SearchBar = () => {
 
     const handleSearch = (e) => {
         const text = e.nativeEvent.text
+        Keyboard.dismiss();
         setInputSearch(text)
     }
 
     const submitSearch = async () => {
-        console.log('FETCH:::', inputSearch)
         startLoad()
         try {
             const response = await fetch('http://192.168.1.6:8080/api/v1/post', {
@@ -24,7 +24,6 @@ const SearchBar = () => {
             })
             if(response.ok) {
                 const result = await response.json();
-                console.log(result.data)
                 setImageDataList(result.data.reverse());
             }
         } catch (error) {

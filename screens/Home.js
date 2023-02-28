@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { View, SafeAreaView, FlatList, Text } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { COLORS, assets, SIZES, FONTS } from '../constants';
 import { Card, FocusedStatusBar, HomeHeader, CircleButton } from "../components";
 import { useStateContext } from '../context/ContextProvider';
@@ -8,6 +8,7 @@ import { useStateContext } from '../context/ContextProvider';
 const Home = () => {
     const { openAlert, startLoad, stopLoad, imageList, setImageDataList } = useStateContext();
     const navigation = useNavigation();
+    const isFocused = useIsFocused();
 
     const [pagination, setPagination] = useState(1);
 
@@ -15,9 +16,13 @@ const Home = () => {
         fetchDataList()
     }, [])
 
+    useEffect(() => {
+        if(isFocused) fetchDataList()
+    }, [isFocused])
+
     const handleInfiniteScrolling = () => {
         if (imageList && imageList.length < pagination * 10 ) {
-            console.log('Un altro giro!')
+            console.log('More images')
         }
     }
 
