@@ -4,15 +4,15 @@ import { useStateContext } from '../context/ContextProvider';
 
 const SearchBar = () => {
 
-    const { inputSearch, setInputSearch, setImageDataList, openAlert, startLoad, stopLoad } = useStateContext();
+    const { inputSearch, setInputSearch, setImageDataList, openAlert, startLoad, stopLoad, setSearching } = useStateContext();
 
     const handleSearch = (e) => {
         const text = e.nativeEvent.text
-        Keyboard.dismiss();
         setInputSearch(text)
     }
 
     const submitSearch = async () => {
+        Keyboard.dismiss();
         startLoad()
         try {
             const response = await fetch('http://192.168.1.6:8080/api/v1/post', {
@@ -24,6 +24,7 @@ const SearchBar = () => {
             })
             if(response.ok) {
                 const result = await response.json();
+                setSearching(true)
                 setImageDataList(result.data.reverse());
             }
         } catch (error) {

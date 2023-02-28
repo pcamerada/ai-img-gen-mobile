@@ -28,7 +28,6 @@ const NewImage = ({ navigation }) => {
           },
           body: JSON.stringify({ prompt: inputPrompt })
         })
-  
         const data = await response.json()
         setImage(`data:image/jpeg;base64,${data.image}`)
       } catch (error) {
@@ -42,7 +41,6 @@ const NewImage = ({ navigation }) => {
   }
 
   const shareWithCommunity = async () => {
-    console.log('fi')
     if (inputPrompt && image) {
       try {
         startLoad()
@@ -53,7 +51,6 @@ const NewImage = ({ navigation }) => {
           },
           body: JSON.stringify({ prompt: inputPrompt, photo: image, name: 'Current User' })
         })
-  
         await response.json()
         navigation.goBack()
       } catch (error) {
@@ -75,7 +72,6 @@ const NewImage = ({ navigation }) => {
       />
       <View style={{
         paddingBottom: SIZES.extraLarge,
-        marginTop: SIZES.base,
         opacity: 0.7,
         width: '100%',
         height: 370

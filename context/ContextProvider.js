@@ -8,6 +8,7 @@ export const ContextProvider = ({ children }) => {
     const [alertMessage, setAlertMessage] = useState('')
 
     const [inputSearch, setInputSearch] = useState('')
+    const [searching, setSearching] = useState(false)
     const [imageList, setImageList] = useState([])
 
     const openAlert = (message) => {
@@ -41,7 +42,8 @@ export const ContextProvider = ({ children }) => {
                 showAlert,
                 inputSearch, setInputSearch,
                 isLoading, startLoad, stopLoad,
-                imageList, setImageDataList
+                imageList, setImageDataList,
+                searching, setSearching
             }}
         >
             {children}

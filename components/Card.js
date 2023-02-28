@@ -23,7 +23,7 @@ const Card = ({ data }) => {
             ...SHADOWS.dark
         }}>
             <View style={{
-                width: '100%', height: 250
+                width: '100%', height: 280
             }}>
                 <Image source={{ uri: data.photo }}
                 resizeMode='cover'
